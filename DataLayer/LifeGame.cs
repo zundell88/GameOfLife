@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace kiswa.Games.Life.DataLayer
@@ -108,11 +109,25 @@ namespace kiswa.Games.Life.DataLayer
         /// <remarks>When invalid rules are input, rules default to 23/3.</remarks>
         public void ChangeRules(string rules)
         {
-            // Insert magic here!
+            if (!rules.All("012345678/".Contains))
+            {
+                rules = "23/3";
+            }
+            _unparsedRules = rules;
+            string survive = rules.Split('/')[0];
+            string birth = rules.Split('/')[1];
 
-            // Remove this:
             _surviveRules = new List<int>();
             _birthRules = new List<int>();
+
+            for (int i = 0; i < survive.Length; i++)
+            {
+                _surviveRules.Add(int.Parse(survive.Substring(i,1)));
+            }
+            for (int i = 0; i < birth.Length; i++)
+            {
+                _birthRules.Add(int.Parse(birth.Substring(i, 1)));
+            }
         }
 
         /// <summary>
@@ -227,7 +242,23 @@ namespace kiswa.Games.Life.DataLayer
         /// </summary>
         private void advancePopulation()
         {
-            // Insert magic here
+            if (_liveCells == 0)
+            {
+                return;
+            }
+            _liveCells = 0;
+            int neighbours;
+            int index;
+            bool alive;
+
+            for (int y = 0; y < _rows; y++)
+            {
+                for (int x = 0; x < _cols; x++)
+                {
+                    neighbours = getNeighbors(x,y);
+                    index = x + y*_cols;
+                }
+            }
         }
 
         /// <summary>
