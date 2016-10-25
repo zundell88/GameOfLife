@@ -257,6 +257,19 @@ namespace kiswa.Games.Life.DataLayer
                 {
                     neighbours = getNeighbors(x,y);
                     index = x + y*_cols;
+                    alive = _currentStates[index];
+
+                    //If the cells is alive and survives, or dead and is born
+                    if ((alive && _surviveRules.Contains(neighbours)) || (!alive && _birthRules.Contains(neighbours)))
+                    {
+                        _newStates[index] = true;
+                        _liveCells += 1;
+                    }
+                    //The cell neither survives nor is born
+                    else
+                    {
+                        _newStates[index] = false;
+                    }
                 }
             }
         }
